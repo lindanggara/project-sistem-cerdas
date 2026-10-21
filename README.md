@@ -1,30 +1,30 @@
 # Menfess Radar
 
-**Menfess Radar** adalah proyek Sains Data Terapan untuk menganalisis topik pada teks menfess, memantau tren topik dari waktu ke waktu, dan memprediksi kemungkinan sebuah menfess memperoleh balasan. Hasil analisis disajikan melalui dashboard web.
+**Menfess Radar** adalah proyek Sains Data Terapan untuk menganalisis topik pada teks menfess, memantau tren topik dari waktu ke waktu, dan memprediksi kemungkinan sebuah menfess memperoleh balasan. Hasil analisis disajikan melalui dashboard web interaktif.
 
-> Status: kerangka awal proyek. Sumber data, definisi target prediksi, dan model final perlu ditetapkan serta divalidasi oleh tim.
+> **Status:** Kerangka awal proyek. Sumber data, definisi target prediksi, dan model final perlu ditetapkan serta divalidasi oleh tim.
 
 ## Tujuan
 
 1. Mengumpulkan dan mengeksplorasi data menfess yang diperoleh secara sah.
 2. Membersihkan teks dan menyiapkan fitur untuk analisis.
-3. Mengidentifikasi kelompok/topik menfess dan memberi interpretasi pada topik.
+3. Mengidentifikasi kelompok atau topik menfess serta menginterpretasikan hasilnya.
 4. Menganalisis perubahan volume topik berdasarkan waktu.
 5. Melatih dan mengevaluasi model untuk memprediksi apakah menfess mendapat balasan.
-6. Menyajikan ringkasan, visualisasi, dan hasil prediksi pada dashboard.
+6. Menyajikan ringkasan, visualisasi, dan hasil prediksi melalui dashboard.
 
-## Fitur utama
+## Fitur Utama
 
 - Eksplorasi dan preprocessing teks.
-- Pemodelan topik (metode dipilih setelah eksplorasi data, misalnya TF-IDF + clustering atau BERTopic).
-- Analisis tren topik berdasarkan tanggal/waktu.
-- Klasifikasi kemungkinan dibalas menggunakan label target yang didefinisikan secara eksplisit.
-- Evaluasi model dan dashboard interaktif.
+- Pemodelan topik menggunakan metode yang sesuai dengan karakteristik data, seperti TF-IDF dengan clustering atau BERTopic.
+- Analisis tren topik berdasarkan tanggal atau waktu.
+- Prediksi kemungkinan menfess memperoleh balasan menggunakan label target yang didefinisikan secara eksplisit.
+- Evaluasi model dan visualisasi interaktif melalui dashboard web.
 
-## Struktur repositori
+## Struktur Repositori
 
 ```text
-menfess-radar/
+project-sistem-cerdas/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
@@ -50,6 +50,7 @@ menfess-radar/
 │   ├── evaluation.py
 │   └── trend_analysis.py
 ├── models/
+│   └── README.md
 ├── reports/
 │   ├── figures/
 │   └── results/
@@ -65,7 +66,9 @@ menfess-radar/
     └── references.md
 ```
 
-## Persiapan lingkungan
+*Catatan: Struktur di atas merupakan struktur yang direncanakan. Sesuaikan dengan file yang benar-benar tersedia di repositori.*
+
+## Persiapan Lingkungan
 
 Disarankan menggunakan Python 3.10 atau 3.11 dan virtual environment.
 
@@ -87,41 +90,43 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Menjalankan dashboard
+## Menjalankan Dashboard
 
-Setelah `dashboard/app.py` dibuat dan data/model yang diperlukan tersedia:
+Setelah `dashboard/app.py` dan komponen yang diperlukan tersedia, jalankan:
 
 ```bash
 streamlit run dashboard/app.py
 ```
 
-## Evaluasi yang disarankan
+## Metodologi dan Evaluasi
 
-### Analisis topik
+### Analisis Topik
 
-Gunakan kombinasi evaluasi kuantitatif yang sesuai dengan metode (misalnya silhouette score jika clustering memungkinkan) dan pemeriksaan kualitatif terhadap kata kunci serta contoh teks per topik. Jangan menganggap skor tunggal cukup untuk membuktikan kualitas topik.
+Evaluasi dilakukan melalui kombinasi metrik kuantitatif dan pemeriksaan kualitatif. Jika menggunakan clustering, silhouette score dapat dipertimbangkan apabila sesuai dengan metode dan representasi datanya. Interpretasikan topik berdasarkan kata kunci dan contoh teks yang mewakilinya.
 
-### Prediksi balasan
+### Prediksi Balasan
 
-- Tetapkan label dengan jelas, misalnya `replied = 1` jika ada balasan dalam jendela observasi yang ditentukan, dan `0` jika tidak.
+- Tetapkan label secara eksplisit, misalnya `replied = 1` jika sebuah menfess memperoleh setidaknya satu balasan dalam jendela observasi yang ditentukan, dan `replied = 0` jika tidak.
 - Hindari fitur yang baru diketahui setelah balasan terjadi karena dapat menyebabkan kebocoran target (*target leakage*).
-- Pisahkan data berdasarkan waktu jika penggunaan model ditujukan untuk memprediksi menfess baru.
-- Laporkan baseline dan metrik yang sesuai, seperti precision, recall, F1, PR-AUC, serta confusion matrix. Perhatikan ketidakseimbangan kelas.
+- Pisahkan data berdasarkan waktu jika model ditujukan untuk memprediksi menfess baru.
+- Bandingkan hasil model dengan baseline sederhana.
+- Laporkan metrik yang sesuai, seperti precision, recall, F1-score, PR-AUC, dan confusion matrix.
+- Perhatikan ketidakseimbangan kelas saat mengevaluasi hasil prediksi.
 
-## Tata kelola data
+## Tata Kelola Data
 
 - Pastikan pengambilan dan penggunaan data mematuhi ketentuan platform serta izin yang berlaku.
-- Jangan mengunggah token, cookie, kredensial, atau data pribadi/sensitif ke GitHub.
-- Anonimkan identitas bila diperlukan dan batasi akses pada data mentah.
-- Data asli tidak disertakan dalam repositori. Lihat [`data/README.md`](data/README.md) untuk panduan penempatan data.
+- Jangan mengunggah token, cookie, kredensial, atau data pribadi dan sensitif ke GitHub.
+- Anonimkan identitas bila diperlukan dan batasi akses terhadap data mentah.
+- Dataset asli tidak disertakan secara otomatis dalam repositori. Lihat [`data/README.md`](data/README.md) untuk panduan penempatan data.
 
-## Kontribusi tim
+## Kontribusi Tim
 
 1. Buat branch untuk pekerjaan masing-masing, misalnya `feat/topic-modeling` atau `feat/reply-prediction`.
-2. Buat perubahan kecil dengan pesan commit yang jelas.
-3. Jalankan pengujian sebelum membuat pull request.
-4. Jangan commit dataset besar, file model besar, atau kredensial.
+2. Buat perubahan secara bertahap dengan pesan commit yang jelas.
+3. Jalankan pengujian sebelum menggabungkan perubahan.
+4. Jangan commit dataset besar, file model berukuran besar, atau kredensial.
 
-## Status komponen
+## Status Pengembangan
 
-Kerangka folder dan dokumentasi awal disiapkan terlebih dahulu. File notebook, modul Python, pengujian, dan dashboard akan diimplementasikan setelah format dataset dan definisi target disepakati.
+Kerangka folder dan dokumentasi awal disiapkan terlebih dahulu. Notebook eksperimen, modul Python, pengujian, serta dashboard akan diimplementasikan setelah format dataset, sumber data, dan definisi target prediksi disepakati oleh tim.
