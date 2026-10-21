@@ -1,0 +1,23 @@
+# Core data processing
+pandas>=2.2,<3.0
+numpy>=1.26,<3.0
+scipy>=1.11,<2.0
+
+# Text processing and machine learning
+scikit-learn>=1.4,<2.0
+nltk>=3.8,<4.0
+Sastrawi>=1.0.1,<2.0
+
+# Topic modeling option (install if BERTopic is selected)
+bertopic>=0.16,<1.0
+sentence-transformers>=2.6,<6.0
+
+# Visualization and dashboard
+matplotlib>=3.8,<4.0
+plotly>=5.20,<7.0
+streamlit>=1.33,<2.0
+
+# Utilities and testing
+joblib>=1.3,<2.0
+pytest>=8.0,<9.0
+python-dotenv>=1.0,<2.0
