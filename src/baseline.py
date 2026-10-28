@@ -3,6 +3,7 @@
 Jalankan: python src/baseline.py
 Input : data/processed/train.csv, valid.csv, test.csv
 """
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -12,11 +13,13 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 
-from evaluate import evaluate_macro_f1, print_evaluation
+# Pastikan folder src/ ada di sys.path, biar `evaluate` selalu ketemu
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from evaluate import evaluate_macro_f1, print_evaluation, LABEL_UTAMA
 
 ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = ROOT / "data" / "processed"
-LABELS = ["anger", "fear", "joy", "love", "sad", "neutral"]
 
 
 def load_split(nama):
@@ -51,12 +54,12 @@ def main():
 
         # Validasi
         pred_valid = model.predict(valid["text"])
-        res_valid = evaluate_macro_f1(valid["label"], pred_valid, LABELS)
+        res_valid = evaluate_macro_f1(valid["label"], pred_valid, LABEL_UTAMA)
         print(f"[{nama}] Macro F1 valid: {res_valid['macro_f1']:.4f}")
 
         # Test
         pred_test = model.predict(test["text"])
-        res_test = evaluate_macro_f1(test["label"], pred_test, LABELS)
+        res_test = evaluate_macro_f1(test["label"], pred_test, LABEL_UTAMA)
         print_evaluation(res_test, title=f"{nama} — TEST")
 
         hasil_semua[nama] = {
