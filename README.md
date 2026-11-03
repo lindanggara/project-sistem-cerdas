@@ -1,28 +1,24 @@
 # TextScope
 
-**TextScope** adalah proyek Sains Data Terapan yang berfokus pada analisis teks menggunakan pendekatan machine learning. Proyek ini mencakup pemodelan topik, klasifikasi emosi, analisis tren topik, serta prediksi kemungkinan sebuah unggahan memperoleh balasan.
+**TextScope** adalah proyek Sains Data Terapan yang berfokus pada **klasifikasi emosi teks Bahasa Indonesia** menggunakan pendekatan machine learning. Proyek ini mencakup preprocessing data, eksplorasi data, pengembangan model klasifikasi, evaluasi performa, serta visualisasi interaktif.
 
-Proyek ini dikembangkan sebagai bagian dari mata kuliah Sistem Cerdas dengan tujuan mengolah data teks yang tidak terstruktur menjadi informasi yang bermakna melalui preprocessing, pemodelan, evaluasi, dan visualisasi interaktif.
+Proyek ini dikembangkan sebagai bagian dari mata kuliah Sistem Cerdas dengan tujuan mengolah data teks yang tidak terstruktur menjadi informasi bermakna melalui penerapan metode machine learning dan natural language processing (NLP).
 
 ## Tujuan
 
 1. Mengumpulkan dan mengeksplorasi dataset dari sumber yang dapat dipertanggungjawabkan.
 2. Melakukan preprocessing teks untuk mempersiapkan data bagi proses analisis.
-3. Mengidentifikasi topik dan pola dalam teks menggunakan metode pemodelan topik yang sesuai.
-4. Menganalisis perubahan frekuensi topik berdasarkan waktu.
-5. Mengembangkan dan mengevaluasi model untuk memprediksi kemungkinan sebuah unggahan memperoleh balasan.
-6. Mengembangkan model klasifikasi emosi dan mengevaluasi kemampuannya pada dataset yang berbeda.
-7. Menyajikan hasil analisis dan prediksi melalui dashboard interaktif.
+3. Mengembangkan model klasifikasi emosi menggunakan pendekatan machine learning klasik dan transformer.
+4. Mengevaluasi performa model pada dataset utama serta menguji kemampuan generalisasinya menggunakan dataset lintas domain (EmoT).
+5. Menyajikan hasil analisis dan prediksi emosi melalui dashboard interaktif.
 
 ## Fitur Utama
 
-- **Preprocessing Teks:** Membersihkan dan menormalisasi teks sebelum analisis.
-- **Pemodelan Topik:** Mengidentifikasi kelompok teks yang memiliki keterkaitan menggunakan metode seperti TF-IDF dengan clustering atau BERTopic.
-- **Analisis Tren Topik:** Mengamati perubahan frekuensi topik dari waktu ke waktu.
-- **Prediksi Balasan:** Memprediksi kemungkinan sebuah unggahan memperoleh balasan berdasarkan target yang telah didefinisikan.
-- **Klasifikasi Emosi:** Mengklasifikasikan teks ke dalam kategori emosi.
-- **Evaluasi Model:** Mengukur performa model menggunakan metrik evaluasi yang sesuai.
-- **Dashboard Interaktif:** Menyajikan hasil analisis dan prediksi dalam bentuk visualisasi.
+- **Preprocessing Teks:** Membersihkan dan menormalisasi teks, termasuk penanganan kata tidak baku dan kata gaul.
+- **Klasifikasi Emosi:** Mengklasifikasikan teks ke dalam enam kategori emosi, yaitu anger, fear, joy, love, sad, dan neutral.
+- **Evaluasi Model:** Mengukur performa model menggunakan Macro F1-score, precision, recall, dan confusion matrix.
+- **Evaluasi Lintas Domain:** Menguji kemampuan generalisasi model menggunakan dataset EmoT dari sumber teks yang berbeda.
+- **Dashboard Interaktif:** Menyajikan hasil prediksi dan visualisasi data dalam bentuk aplikasi web.
 
 Ketersediaan setiap fitur mengikuti tahap implementasi dan hasil eksperimen yang telah divalidasi.
 
@@ -43,7 +39,7 @@ Dataset ini mencakup enam kategori emosi:
 - Sad
 - Neutral
 
-Script pengunduhan menggabungkan data dari enam berkas emosi menjadi satu dataset. Selanjutnya, dilakukan pembersihan teks duplikat dan teks yang memiliki label berbeda.
+Script pengunduhan menggabungkan data dari enam berkas emosi menjadi satu dataset. Selanjutnya, dilakukan pembersihan teks duplikat dan teks yang memiliki label berbeda untuk menjaga konsistensi data.
 
 ### 2. Dataset Evaluasi Lintas Domain
 
@@ -57,13 +53,13 @@ Pemetaan label yang digunakan dalam proyek ini mencakup lima kategori:
 - Love
 - Sad
 
-Kategori netral tidak disertakan dalam pemetaan EmoT. Oleh karena itu, evaluasi lintas dataset perlu memperhatikan kesesuaian label dan perbedaan distribusi data.
+Kategori netral tidak disertakan dalam pemetaan EmoT. Oleh karena itu, evaluasi lintas dataset dilakukan dengan memperhatikan kesesuaian label dan perbedaan distribusi data.
 
 ### 3. Data Demonstrasi
 
 Data menfess atau unggahan media sosial yang diperoleh secara sah dapat digunakan sebagai contoh penerapan model pada data nyata.
 
-Data tersebut **tidak digunakan sebagai dataset pelatihan maupun pengujian resmi** untuk klasifikasi emosi. Tanpa label acuan, hasil prediksi hanya digunakan untuk demonstrasi dan tidak dapat dijadikan dasar penghitungan akurasi atau metrik evaluasi lainnya.
+Data tersebut **tidak digunakan sebagai dataset pelatihan maupun pengujian resmi** untuk klasifikasi emosi. Tanpa label acuan, hasil prediksi hanya digunakan untuk demonstrasi dan tidak dapat dijadikan dasar penghitungan akurasi maupun metrik evaluasi lainnya.
 
 Sebelum digunakan, data demonstrasi perlu diperiksa dari sisi privasi dan dianonimkan apabila mengandung informasi yang dapat mengidentifikasi seseorang.
 
@@ -81,6 +77,8 @@ project-sistem-cerdas/
 │   ├── interim/
 │   └── processed/
 ├── notebooks/
+│   ├── 01_preprocessing_data.ipynb
+│   └── 02_eda.ipynb
 ├── src/
 │   └── download_data.py
 ├── models/
@@ -88,16 +86,19 @@ project-sistem-cerdas/
 ├── reports/
 │   ├── figures/
 │   └── results/
+│       └── eksperimen.md
 ├── dashboard/
 ├── tests/
 └── docs/
+    ├── laporan EDA.md
+    └── PANDUAN_TIM.md
 ```
 
-Struktur tersebut menggambarkan direktori utama proyek. Isi setiap direktori dapat berkembang sesuai kebutuhan implementasi.
+Struktur tersebut menggambarkan direktori utama proyek. Beberapa direktori dan berkas dapat dikembangkan sesuai kebutuhan implementasi.
 
 ## Persiapan Lingkungan
 
-Proyek disarankan menggunakan Python 3.10 atau 3.11, dengan tetap memperhatikan kompatibilitas dependensi pada `requirements.txt`.
+Proyek disarankan menggunakan Python 3.10 atau 3.11 dengan memperhatikan kompatibilitas dependensi yang tercantum dalam `requirements.txt`.
 
 ### Windows (PowerShell)
 
@@ -130,8 +131,11 @@ Script akan mengunduh dataset utama klasifikasi emosi dan dataset EmoT, kemudian
 | Berkas | Keterangan |
 |---|---|
 | `emosi_gabungan.csv` | Gabungan data dari enam kategori emosi pada dataset utama. |
-| `emosi_bersih.csv` | Data yang telah dibersihkan dari teks duplikat dan teks dengan konflik label. |
+| `emosi_bersih.csv` | Data yang telah dibersihkan dari teks duplikat dan konflik label. |
 | `emot_lintas.csv` | Dataset EmoT yang telah disiapkan untuk evaluasi lintas domain, termasuk informasi pembagian data aslinya. |
+| `train.csv` | Data pelatihan model. |
+| `valid.csv` | Data validasi model. |
+| `test.csv` | Data pengujian model. |
 
 Berkas mentah disimpan pada direktori:
 
@@ -140,7 +144,7 @@ data/raw/emosi_opini_publik/
 data/raw/emot/
 ```
 
-Script melewati pengunduhan jika berkas terkait sudah tersedia. Apabila pengunduhan sebelumnya terputus, periksa kelengkapan berkas sebelum menjalankan ulang proses.
+Dataset disimpan secara lokal dan tidak disertakan dalam repositori GitHub.
 
 Untuk memeriksa hasil pengunduhan, jalankan:
 
@@ -149,67 +153,84 @@ Get-ChildItem .\data\raw -Recurse
 Get-ChildItem .\data\processed
 ```
 
-Dataset disimpan secara lokal dan tidak disertakan dalam repositori GitHub. Informasi mengenai sumber, lisensi, dan pengelolaan dataset dapat dilihat pada [`data/README.md`](data/README.md).
+Informasi mengenai sumber, lisensi, dan pengelolaan dataset dapat dilihat pada [`data/README.md`](data/README.md).
 
 ## Metodologi dan Evaluasi
 
 ### Klasifikasi Emosi
 
-Evaluasi klasifikasi emosi dilakukan melalui dua tahap.
+Pengembangan dan evaluasi klasifikasi emosi dilakukan melalui dua tahap utama.
 
-**Evaluasi utama**
+**1. Evaluasi Utama**
 
-Evaluasi utama menggunakan data uji yang berasal dari dataset utama. Metrik yang dapat digunakan meliputi:
+Evaluasi utama menggunakan data uji yang berasal dari dataset utama. Tahap ini bertujuan mengukur kemampuan model dalam mengklasifikasikan emosi pada data yang belum pernah digunakan selama pelatihan.
 
-- Macro F1-score sebagai salah satu metrik utama.
-- Precision, recall, dan F1-score untuk setiap kelas.
-- Confusion matrix untuk menganalisis kesalahan klasifikasi.
+Metrik evaluasi yang digunakan meliputi:
 
-**Evaluasi lintas dataset**
+- **Macro F1-score:** Metrik utama untuk mengukur keseimbangan performa klasifikasi pada seluruh kelas.
+- **Precision:** Mengukur ketepatan prediksi pada setiap kategori emosi.
+- **Recall:** Mengukur kemampuan model dalam menemukan seluruh data pada setiap kategori.
+- **Confusion Matrix:** Menganalisis pola kesalahan klasifikasi antar kategori emosi.
 
-Model diuji menggunakan EmoT untuk mengamati perubahan performa ketika diterapkan pada sumber teks yang berbeda. Hasilnya dilaporkan secara terpisah dari evaluasi utama dengan mempertimbangkan perbedaan domain, gaya bahasa, dan distribusi label.
+**2. Evaluasi Lintas Dataset**
 
-**Demonstrasi pada data nyata**
+Model diuji menggunakan dataset EmoT untuk mengamati kemampuan generalisasi ketika diterapkan pada sumber teks yang berbeda.
 
-Data menfess dapat digunakan untuk menunjukkan contoh prediksi model. Namun, data tanpa label acuan tidak digunakan untuk menghasilkan skor evaluasi resmi.
+Hasil evaluasi lintas dataset dilaporkan secara terpisah dari evaluasi utama dengan mempertimbangkan perbedaan domain, gaya bahasa, serta distribusi label.
 
-### Pemodelan Topik
+**3. Demonstrasi pada Data Nyata**
 
-Pemodelan topik digunakan untuk mengidentifikasi tema dan kelompok teks yang saling berkaitan.
-
-Metode evaluasi disesuaikan dengan pendekatan yang digunakan. Jika menerapkan clustering, metrik seperti silhouette score dapat dipertimbangkan apabila sesuai. Interpretasi juga dilakukan secara kualitatif melalui kata kunci dan contoh teks yang mewakili setiap kelompok.
-
-### Prediksi Balasan
-
-Pengembangan model prediksi balasan memperhatikan beberapa aspek berikut:
-
-1. Mendefinisikan target secara eksplisit, misalnya apakah sebuah unggahan memperoleh setidaknya satu balasan dalam jangka waktu pengamatan tertentu.
-2. Menghindari penggunaan fitur yang baru tersedia setelah balasan terjadi untuk mencegah kebocoran target (*target leakage*).
-3. Memisahkan data berdasarkan waktu apabila model ditujukan untuk memprediksi unggahan baru.
-4. Membandingkan performa model dengan metode dasar (*baseline*).
-5. Melaporkan metrik yang relevan, seperti precision, recall, F1-score, PR-AUC, dan confusion matrix.
+Data menfess dapat digunakan untuk menunjukkan contoh penerapan model pada teks media sosial. Namun, data tanpa label acuan tidak digunakan untuk menghasilkan skor evaluasi resmi.
 
 ## Tata Kelola Data
+
+Pengelolaan data dalam proyek TextScope memperhatikan beberapa prinsip berikut:
 
 - Memastikan pengumpulan dan penggunaan data sesuai dengan ketentuan sumber, lisensi, dan izin yang berlaku.
 - Tidak mengunggah API key, cookie, kredensial, atau informasi sensitif ke GitHub.
 - Melakukan anonimisasi terhadap informasi identitas pada data demonstrasi apabila diperlukan.
-- Menghindari publikasi teks asli yang dapat mengidentifikasi pemilik akun tanpa dasar penggunaan yang sesuai.
 - Memisahkan data demonstrasi dari dataset pelatihan dan evaluasi resmi.
+- Menghindari publikasi teks asli yang dapat mengidentifikasi pemilik akun tanpa dasar penggunaan yang sesuai.
 - Memeriksa ketentuan lisensi sebelum menggunakan atau mendistribusikan ulang dataset.
 
 ## Kontribusi Tim
 
-1. Membuat branch terpisah untuk setiap pekerjaan, misalnya `feat/topic-modeling` atau `feat/reply-prediction`.
+Untuk menjaga konsistensi pengembangan proyek, setiap anggota tim mengikuti ketentuan berikut:
+
+1. Membuat branch terpisah untuk setiap pekerjaan, misalnya `feat/baseline` atau `feat/indobert`.
 2. Melakukan perubahan secara bertahap dengan pesan commit yang jelas.
 3. Menjalankan pengujian yang relevan sebelum menggabungkan perubahan.
 4. Tidak melakukan commit terhadap dataset lokal, artefak model berukuran besar, atau kredensial.
 5. Memperbarui dokumentasi apabila terdapat perubahan pada struktur proyek, metodologi, atau cara menjalankan aplikasi.
 
+## Dokumentasi & Hasil
+
+Dokumentasi pengembangan dan hasil eksperimen TextScope dapat diakses melalui beberapa dokumen berikut.
+
+| Dokumen | Deskripsi |
+|---|---|
+| [Tabel Eksperimen](reports/results/eksperimen.md) | Catatan dan perbandingan hasil eksperimen model. |
+| [Panduan Tim](docs/PANDUAN_TIM.md) | Jadwal, pembagian tugas, dan aturan kerja tim. |
+| [Data README](data/README.md) | Sumber, lisensi, dan deskripsi dataset. |
+| [Laporan EDA](docs/laporan%20EDA.md) | Hasil eksplorasi dan analisis dataset. |
+
+### Hasil Eksperimen
+
+**Hasil sementara per 3 November 2026**
+
+| Model | Macro F1 (Test) | Status |
+|---|---:|---|
+| **Logistic Regression + Normalisasi + Class Weighting** | **0.7155** | Model klasik terbaik |
+| SVM + Normalisasi + Class Weighting | 0.7075 | Selesai |
+| IndoBERT | Menunggu hasil | Dalam pengembangan (PIC: Chila) |
+| IndoBERTweet | Menunggu hasil | Dalam pengembangan (PIC: Chila) |
+
+Hasil eksperimen tersebut merupakan hasil pengujian pada dataset utama. Perbandingan performa dilakukan menggunakan data uji dan konfigurasi eksperimen yang telah ditetapkan.
+
 ## Status Pengembangan
 
-Proyek saat ini telah memiliki struktur repositori serta script untuk mengunduh dan menyiapkan dataset klasifikasi emosi.
+Proyek saat ini telah menyelesaikan beberapa tahapan utama, yaitu **pengumpulan dan pembersihan data**, **eksplorasi data (EDA)**, serta **eksperimen model machine learning klasik** dengan hasil terbaik sementara berupa Macro F1-score sebesar **0.7155**.
 
-Tahap pengembangan selanjutnya mencakup eksplorasi data, eksperimen pemodelan, evaluasi, implementasi dashboard, dan dokumentasi hasil berdasarkan eksperimen yang telah divalidasi.
+Tahap pengembangan selanjutnya mencakup **pelatihan dan evaluasi model transformer (IndoBERT dan IndoBERTweet)**, **evaluasi lintas domain menggunakan EmoT**, serta **implementasi dashboard interaktif**.
 
 TextScope merupakan proyek akademik yang dikembangkan secara bertahap. Klaim performa model dan status penyelesaian fitur akan disesuaikan dengan hasil implementasi dan pengujian yang dapat direproduksi.

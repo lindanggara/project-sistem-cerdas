@@ -4,6 +4,7 @@ Jalankan: python src/baseline.py
 Input : data/processed/train.csv, valid.csv, test.csv
 """
 import sys
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -21,16 +22,41 @@ from evaluate import evaluate_macro_f1, print_evaluation, LABEL_UTAMA
 ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = ROOT / "data" / "processed"
 
+# --- KAMUS NORMALISASI KATA GAUL ---
+KAMUS_GAUL = {
+    "gak": "tidak", "ga": "tidak", "nggak": "tidak", "engga": "tidak",
+    "bgt": "banget", "bgtt": "banget", "bngt": "banget",
+    "sm": "sama", "sma": "sama", "dgn": "dengan",
+    "yg": "yang", "utk": "untuk", "krn": "karena",
+    "sdh": "sudah", "udh": "sudah", "blm": "belum",
+    "bkn": "bukan", "tp": "tapi", "tpi": "tapi",
+    "aja": "saja", "aj": "saja", "doang": "saja",
+    "ak": "aku", "aq": "aku", "gw": "aku", "gue": "aku",
+    "km": "kamu", "kmu": "kamu", "lu": "kamu", "lo": "kamu",
+}
+
+def normalisasi_teks(teks):
+    """Ubah kata gaul menjadi kata baku."""
+    teks = str(teks).lower()
+    kata = teks.split()
+    kata_normal = [KAMUS_GAUL.get(k, k) for k in kata]
+    return " ".join(kata_normal)
+
 
 def load_split(nama):
-    return pd.read_csv(PROCESSED / f"{nama}.csv")
+    df = pd.read_csv(PROCESSED / f"{nama}.csv")
+    # Terapkan normalisasi saat data dimuat
+    df["text"] = df["text"].map(normalisasi_teks)
+    return df
 
 
 def buat_model(nama):
     if nama == "logreg":
-        clf = LogisticRegression(max_iter=1000, random_state=42)
+        # TAMBAHKAN class_weight='balanced'
+        clf = LogisticRegression(max_iter=1000, random_state=42, class_weight='balanced')
     elif nama == "svm":
-        clf = LinearSVC(random_state=42)
+        # TAMBAHKAN class_weight='balanced'
+        clf = LinearSVC(random_state=42, class_weight='balanced')
     elif nama == "nb":
         clf = MultinomialNB()
     else:
@@ -42,6 +68,7 @@ def buat_model(nama):
 
 
 def main():
+    # load_split sekarang sudah otomatis menormalisasi teks
     train = load_split("train")
     valid = load_split("valid")
     test = load_split("test")

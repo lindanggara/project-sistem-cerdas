@@ -49,6 +49,7 @@ reports/figures/*
 reports/results/*
 !reports/figures/.gitkeep
 !reports/results/.gitkeep
+!reports/results/eksperimen.md
 
 # Editor and OS files
 .vscode/
