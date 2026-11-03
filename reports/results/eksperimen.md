@@ -26,8 +26,12 @@ Catatan semua percobaan model. **Jangan hapus baris lama**, tambahkan baris baru
 | _TBD_ | IndoBERT | Chila | — | — | — | — | Menunggu |
 | _TBD_ | IndoBERTweet | Chila | — | — | — | — | Menunggu |
 
-## 3. Evaluasi Lintas Domain EmoT (Chila)
+## 3. Evaluasi Lintas Domain EmoT (Model Klasik & Transformer)
 
 | Tanggal | Model | PJ | Macro F1 (EmoT) | Catatan |
 |---|---|---|---|---|
-| _TBD_ | — | Chila | — | Menunggu |
+| 3 Nov 2026 | LogReg Tuned | Linda | **0.4142** | Turun drastis dari 0.7286. Bukti model klasik *overfit* domain. |
+| _TBD_ | IndoBERT | Chila | — | Menunggu |
+
+**Analisis Singkat (EmoT):**
+Model klasik terbaik (LogReg Tuned) mengalami penurunan performa yang sangat drastis (dari 0.7286 menjadi 0.4142) saat diuji pada dataset EmoT. Recall yang sangat rendah (0.3147) menunjukkan model gagal mengenali gaya bahasa Twitter. Kelas `sad` dan `joy` paling terdampak. Ini menjadi bukti kuat bahwa model klasik sangat bergantung pada kosakata domain pelatihan, dan menjadi *baseline* penting untuk membandingkan performa IndoBERT (Chila) nanti.
