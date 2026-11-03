@@ -90,8 +90,11 @@ project-sistem-cerdas/
 ├── dashboard/
 ├── tests/
 └── docs/
-    ├── laporan EDA.md
-    └── PANDUAN_TIM.md
+    ├── panduan/
+    │   └── PANDUAN_TIM.md
+    └── laporan/
+        ├── 01_data_eda.md
+        └── 02_model_klasik.md
 ```
 
 Struktur tersebut menggambarkan direktori utama proyek. Beberapa direktori dan berkas dapat dikembangkan sesuai kebutuhan implementasi.
@@ -209,10 +212,11 @@ Dokumentasi pengembangan dan hasil eksperimen TextScope dapat diakses melalui be
 
 | Dokumen | Deskripsi |
 |---|---|
-| [Tabel Eksperimen](reports/results/eksperimen.md) | Catatan dan perbandingan hasil eksperimen model. |
-| [Panduan Tim](docs/PANDUAN_TIM.md) | Jadwal, pembagian tugas, dan aturan kerja tim. |
-| [Data README](data/README.md) | Sumber, lisensi, dan deskripsi dataset. |
-| [Laporan EDA](docs/laporan%20EDA.md) | Hasil eksplorasi dan analisis dataset. |
+| [📊 Tabel Eksperimen](reports/results/eksperimen.md) | Catatan lengkap dan perbandingan seluruh percobaan model. |
+| [📘 Panduan Tim](docs/panduan/PANDUAN_TIM.md) | Jadwal, pembagian tugas, dan aturan kerja tim. |
+| [📁 Data README](data/README.md) | Sumber, lisensi, dan deskripsi dataset. |
+| [🔬 Laporan EDA](docs/laporan/01_data_eda.md) | Hasil eksplorasi dan analisis dataset. |
+| [🤖 Laporan Model Klasik](docs/laporan/02_model_klasik.md) | Metodologi, eksperimen, dan hasil evaluasi model machine learning klasik. |
 
 ### Hasil Eksperimen
 
