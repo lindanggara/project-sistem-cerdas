@@ -18,6 +18,7 @@ ENV/
 
 # Jupyter
 .ipynb_checkpoints/
+notebooks/*_output.ipynb
 
 # Local datasets (keep directory structure with .gitkeep)
 data/raw/**
