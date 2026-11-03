@@ -44,6 +44,13 @@ Dilakukan *GridSearchCV* dengan 3-fold cross-validation untuk mencari nilai para
 **Analisis Singkat:**
 Peningkatan skor dari 0.7108 menjadi 0.7286 dicapai melalui kombinasi normalisasi kata gaul, ekstraksi fitur karakter, dan tuning hyperparameter. Model LogReg terbukti paling stabil dan memberikan hasil terbaik.
 
+**Grafik Perbandingan Performa Model Klasik:**
+![Perbandingan Model Klasik](../../reports/figures/perbandingan_model_klasik.png)
+
+**Confusion Matrix Model Terbaik (LogReg Tuned):**
+![Confusion Matrix LogReg](../../reports/figures/confusion_matrix_logreg.png)
+*(Catatan Analisis: Model sangat baik dalam memprediksi `fear` dan `love`, namun sering tertukar antara `neutral` dan `joy`/`anger` seperti yang dijelaskan pada bagian 3.3)*
+
 ### 3.2 Evaluasi Lintas Domain (EmoT)
 
 | Model | Macro F1 (EmoT) | Catatan |
@@ -79,7 +86,3 @@ Temuan ini menegaskan bahwa model klasik (TF-IDF) memiliki keterbatasan fundamen
 
 ## 4. Kesimpulan Bagian Model Klasik
 Model klasik berhasil memberikan *baseline* yang kuat dengan skor Macro F1 0.7286. Namun, keterbatasan model klasik dalam menghadapi perbedaan domain (ditunjukkan oleh skor EmoT yang rendah) dan kesulitan memahami konteks (ditunjukkan oleh analisis error) membuka jalan bagi eksperimen model transformer untuk memberikan hasil yang lebih general dan akurat.
-
----
-
-*Catatan: Bagian ini akan disempurnakan dengan grafik confusion matrix dan tabel perbandingan detail dari output `baseline.py`.*
