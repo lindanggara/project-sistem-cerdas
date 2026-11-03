@@ -1,6 +1,6 @@
 # Bagian Laporan: Model Klasik & Evaluasi
 
-*Dokumen ini adalah kerangka untuk bagian Model Klasik pada laporan akhir TextScope. Ditulis oleh Linda (PJ Model Klasik).*
+*Dokumen ini adalah bagian Model Klasik pada laporan akhir TextScope. Ditulis oleh Linda (PJ Model Klasik & Evaluasi).*
 
 ## 1. Pendahuluan
 
@@ -9,7 +9,6 @@ Bagian ini menjelaskan pendekatan klasik yang digunakan sebagai *baseline* sebel
 ## 2. Metodologi
 
 ### 2.1 Preprocessing
-*(Ringkas hasil kerja Yuhanidz dan tambahan darimu)*
 - Normalisasi teks (Unicode NFKC).
 - Penghapusan placeholder `[USERNAME]`, `[URL]`, dan mention.
 - **Normalisasi Kata Gaul (Tambahan dari Linda):** Mengubah singkatan umum (misal: *gak* → *tidak*, *bgt* → *banget*) menggunakan kamus yang didefinisikan pada `src/baseline.py`.
@@ -33,7 +32,6 @@ Dilakukan *GridSearchCV* dengan 3-fold cross-validation untuk mencari nilai para
 ## 3. Hasil Eksperimen
 
 ### 3.1 Evaluasi Utama (Dataset Test)
-*(Tabel ini diambil dari `reports/results/eksperimen.md`)*
 
 | Model | Macro F1 (Test) | Catatan |
 | :--- | :---: | :--- |
@@ -47,7 +45,6 @@ Dilakukan *GridSearchCV* dengan 3-fold cross-validation untuk mencari nilai para
 Peningkatan skor dari 0.7108 menjadi 0.7286 dicapai melalui kombinasi normalisasi kata gaul, ekstraksi fitur karakter, dan tuning hyperparameter. Model LogReg terbukti paling stabil dan memberikan hasil terbaik.
 
 ### 3.2 Evaluasi Lintas Domain (EmoT)
-*(Tabel ini diambil dari `reports/results/eksperimen.md`)*
 
 | Model | Macro F1 (EmoT) | Catatan |
 | :--- | :---: | :--- |
@@ -58,9 +55,31 @@ Penurunan performa yang sangat drastis (dari 0.7286 menjadi 0.4142) saat diuji p
 
 Temuan ini menjadi justifikasi kuat untuk beralih ke model **Transformer (IndoBERT)**, yang diharapkan lebih tahan terhadap perbedaan domain karena kemampuannya memahami konteks kalimat secara lebih mendalam.
 
+### 3.3 Analisis Error (Salah Tebak)
+
+Dari 1.055 data uji, model LogReg Tuned salah menebak **295 baris (28%)**. Analisis terhadap 10 pasangan kesalahan terbanyak mengungkap beberapa pola utama:
+
+**Tabel Pasangan Kesalahan Terbanyak:**
+| Asli | Ditebak | Jumlah | Analisis |
+| :--- | :--- | :---: | :--- |
+| neutral | joy | 29 | Model menganggap kata positif (*lucu, cerah*) sebagai `joy`. |
+| neutral | anger | 26 | Model menangkap kata *"aneh, tolol"* sebagai `anger`. |
+| sad | neutral | 23 | Model gagal menangkap emosi implisit (kekhawatiran, kepedulian). |
+| joy | neutral | 23 | Teks `joy` yang singkat (*"bismillah semoga beruntung"*) dianggap netral. |
+| anger | neutral | 23 | Sarkasme dan kritik tajam tidak terdeteksi sebagai `anger`. |
+
+**Pola Utama:**
+1. **Keterbatasan Konteks:** Model klasik tidak dapat memahami konteks kalimat secara utuh. Kata-kata positif/netral sering disalahartikan sebagai emosi lain.
+2. **Emosi Implisit:** Emosi yang tidak diekspresikan secara eksplisit (misal: sedih tanpa kata "sedih") sering gagal terdeteksi.
+3. **Sarkasme dan Nada Bicara:** Model kesulitan menangkap sarkasme atau kritik yang dibalut dengan kata-kata netral.
+4. **Ambiguitas `joy` vs `love`:** Nuansa antara kebahagiaan dan cinta sulit dibedakan oleh model klasik.
+
+**Implikasi:**
+Temuan ini menegaskan bahwa model klasik (TF-IDF) memiliki keterbatasan fundamental dalam memahami **semantik dan konteks** bahasa. Hal ini menjadi justifikasi kuat untuk beralih ke model **Transformer (IndoBERT)** yang mampu memahami konteks kalimat secara lebih mendalam melalui mekanisme *self-attention*.
+
 ## 4. Kesimpulan Bagian Model Klasik
-Model klasik berhasil memberikan *baseline* yang kuat dengan skor Macro F1 0.7286. Namun, keterbatasan model klasik dalam menghadapi perbedaan domain (ditunjukkan oleh skor EmoT yang rendah) membuka jalan bagi eksperimen model transformer untuk memberikan hasil yang lebih general.
+Model klasik berhasil memberikan *baseline* yang kuat dengan skor Macro F1 0.7286. Namun, keterbatasan model klasik dalam menghadapi perbedaan domain (ditunjukkan oleh skor EmoT yang rendah) dan kesulitan memahami konteks (ditunjukkan oleh analisis error) membuka jalan bagi eksperimen model transformer untuk memberikan hasil yang lebih general dan akurat.
 
 ---
 
-*Catatan: Bagian ini akan disempurnakan dengan grafik confusion matrix dan tabel perbandingan detail dari `notebooks/` atau output `baseline.py`.*
+*Catatan: Bagian ini akan disempurnakan dengan grafik confusion matrix dan tabel perbandingan detail dari output `baseline.py`.*
