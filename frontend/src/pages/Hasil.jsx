@@ -33,6 +33,13 @@ export default function Hasil() {
   // Emosi aktif dipakai bersama oleh donat, daftar emosi, dan Topic Radar.
   const [activeEmotion, setActiveEmotion] = useState(summary.dominant_emotion ?? distribution[0].emotion)
   const activeInfo = emotionInfo(activeEmotion)
+  // Topik yang sedang disorot di Topic Radar (indeks 0 = topik terkuat).
+  const [activeTopic, setActiveTopic] = useState(0)
+
+  function selectEmotion(e) {
+    setActiveEmotion(e)
+    setActiveTopic(0)
+  }
   const [filter, setFilter] = useState('all')
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
@@ -52,7 +59,7 @@ export default function Hasil() {
   const rows = filtered.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE)
 
   const topicList = topics[activeEmotion] ?? []
-  const keywords = [...new Set(topicList.flatMap((t) => t.keywords ?? []))].slice(0, 8)
+  const maxScore = Math.max(...topicList.map((t) => t.score), 0.0001)
 
   async function handleExport() {
     setExporting(true)
@@ -101,7 +108,7 @@ export default function Hasil() {
             <span className="shrink-0 rounded-full bg-lilac px-3 py-1 text-[13px] font-extrabold text-primary">Interaktif</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-7">
-            <EmotionDonut data={distribution} active={activeEmotion} onSelect={setActiveEmotion} />
+            <EmotionDonut data={distribution} active={activeEmotion} onSelect={selectEmotion} />
             <ul className="flex min-w-0 flex-[1_1_230px] flex-col gap-1.5" aria-label="Pilih emosi">
               {distribution.map((d) => {
                 const info = emotionInfo(d.emotion)
@@ -111,7 +118,7 @@ export default function Hasil() {
                     <button
                       type="button"
                       aria-pressed={isActive}
-                      onClick={() => setActiveEmotion(d.emotion)}
+                      onClick={() => selectEmotion(d.emotion)}
                       className={`flex min-h-12 w-full cursor-pointer flex-col justify-center gap-1.5 rounded-2xl px-3.5 py-2 text-left transition ${isActive ? 'bg-page' : 'hover:bg-page/70'}`}
                       style={{ boxShadow: isActive ? `inset 0 0 0 2px ${info.color}` : 'none' }}
                     >
@@ -157,7 +164,7 @@ export default function Hasil() {
                     aria-pressed={isActive}
                     aria-label={emotionInfo(e).nama}
                     title={emotionInfo(e).nama}
-                    onClick={() => setActiveEmotion(e)}
+                    onClick={() => selectEmotion(e)}
                     className="flex size-8 cursor-pointer items-center justify-center rounded-full"
                   >
                     <span
@@ -181,7 +188,7 @@ export default function Hasil() {
               Data untuk emosi ini belum cukup untuk dianalisis topiknya.
             </p>
           ) : topicList.length >= 3 ? (
-            <TopicRadarChart topics={topicList} color={activeInfo.color} />
+            <TopicRadarChart topics={topicList} color={activeInfo.color} activeIndex={activeTopic} onSelect={setActiveTopic} />
           ) : (
             <ul className="flex flex-col gap-3 rounded-[22px] bg-page px-5 py-4">
               {topicList.map((t) => (
@@ -190,16 +197,47 @@ export default function Hasil() {
             </ul>
           )}
 
-          {keywords.length > 0 && (
+          {topicList.length > 0 && (
             <div className="flex flex-col gap-2.5">
-              <span className="text-[13px] font-extrabold tracking-wide text-muted uppercase">Kata kunci dominan</span>
-              <div className="flex flex-wrap gap-2">
-                {keywords.map((k) => (
-                  <span key={k} className="rounded-xl bg-page px-3 py-1.5 text-[15px] font-semibold">
-                    <span className="text-muted">#</span> {k}
-                  </span>
-                ))}
-              </div>
+              <span className="text-[13px] font-extrabold tracking-wide text-muted uppercase">Topik &amp; kata kuncinya</span>
+              <ul className="flex flex-col gap-2">
+                {topicList.map((t, i) => {
+                  const isActive = i === activeTopic
+                  const width = Math.round((t.score / maxScore) * 100)
+                  return (
+                    <li key={t.topic}>
+                      <button
+                        type="button"
+                        aria-pressed={isActive}
+                        onClick={() => setActiveTopic(i)}
+                        className="flex w-full cursor-pointer flex-col gap-2 rounded-2xl px-3.5 py-3 text-left transition"
+                        style={{
+                          background: isActive ? tint(activeEmotion, '1F') : '#F7F4FC',
+                          boxShadow: isActive ? `inset 0 0 0 2px ${activeInfo.color}` : 'none',
+                        }}
+                      >
+                        <span className="flex items-center gap-3">
+                          <span className="flex size-7 shrink-0 items-center justify-center rounded-[9px] bg-white text-[13px] font-black text-primary">{i + 1}</span>
+                          <span className={`flex-1 capitalize ${isActive ? 'font-black' : 'font-extrabold'}`}>{t.topic}</span>
+                          <span className="hidden h-2 w-20 overflow-hidden rounded-full bg-white sm:block">
+                            <span className="block h-full rounded-full" style={{ width: `${width}%`, background: activeInfo.color }} />
+                          </span>
+                          <span className="w-12 text-right text-[13px] font-bold text-muted">{t.score.toFixed(2)}</span>
+                        </span>
+                        {t.keywords?.length > 0 && (
+                          <span className="flex flex-wrap gap-1.5 pl-10">
+                            {t.keywords.map((k) => (
+                              <span key={k} className="rounded-lg bg-white px-2.5 py-1 text-sm font-semibold">
+                                <span className="text-muted">#</span> {k}
+                              </span>
+                            ))}
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
             </div>
           )}
         </Card>
