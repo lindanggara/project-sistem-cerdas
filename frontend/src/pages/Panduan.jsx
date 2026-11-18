@@ -24,7 +24,7 @@ export default function Panduan() {
 
       <section className="flex flex-col gap-4">
         <h2 className="text-[22px] font-black">Cara memakai TextScope</h2>
-        <ol className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+        <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {STEPS.map((s, i) => (
             <li key={s.judul} className="flex flex-col gap-2.5 rounded-[26px] p-5.5" style={{ background: s.bg }}>
               <span className="flex size-11 items-center justify-center rounded-[15px] bg-white text-[19px] font-black text-primary shadow-soft">{i + 1}</span>
@@ -73,7 +73,7 @@ export default function Panduan() {
           <h2 className="text-[22px] font-black">Enam label emosi</h2>
           <p className="mt-1 text-[15px] text-muted">Setiap teks dimasukkan ke salah satu emosi berikut.</p>
         </div>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {EMOTIONS.map((e) => {
             const info = emotionInfo(e)
             return (

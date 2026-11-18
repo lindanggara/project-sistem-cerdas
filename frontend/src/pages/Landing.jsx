@@ -111,15 +111,17 @@ export default function Landing() {
 
       <section className="mx-auto flex max-w-[1200px] flex-col gap-5.5 px-6 pt-14 pb-6 sm:px-8">
         <SectionTitle eyebrow="Enam emosi" title="Setiap teks masuk ke salah satu emosi ini." />
-        <div className="flex flex-wrap gap-3">
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {EMOTIONS.map((e) => (
-            <span key={e} className="flex items-center gap-2.5 rounded-full px-5.5 py-3.5 text-lg font-black" style={{ background: tint(e) }}>
-              <span className="size-3 rounded-full" style={{ background: emotionInfo(e).color }} />
-              {emotionInfo(e).nama}
-              <span className="text-sm font-bold text-muted">{e}</span>
-            </span>
+            <li key={e} className="flex flex-col items-center gap-3 rounded-[26px] px-4 py-6 text-center" style={{ background: tint(e, '1F') }}>
+              <span className="flex size-14 items-center justify-center rounded-[18px] bg-white shadow-soft">
+                <span className="size-5 rounded-full" style={{ background: emotionInfo(e).color }} />
+              </span>
+              <span className="text-xl font-black">{emotionInfo(e).nama}</span>
+              <span className="rounded-full bg-white/80 px-3 py-1 text-[13px] font-bold text-muted">{e}</span>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       <section className="mx-auto max-w-[1200px] px-6 pt-14 pb-18 sm:px-8">
