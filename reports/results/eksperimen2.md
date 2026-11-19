@@ -1,4 +1,3 @@
-Bisaaa! Aku masukkan hasil training IndoBERT kamu yang kemarin ke tabel eksperimen TextScope. Formatnya aku samakan dengan tabel kelompokmu, jadi tinggal kamu salin ke dokumentasi proyek atau README GitHub.
 
 # **Tabel Eksperimen TextScope**
 
